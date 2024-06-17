@@ -20,7 +20,7 @@ const PhotoPage = async () => {
 
             <div className=' grid grid-cols-2 gap-4'>
                 {
-                    photoData?.map(({ title, thumbnailUr, id }, index) => <div
+                    photoData?.map(({ title,  id }, index) => <div
                      key={index}
                      className='border-2 p-4 m-3'
                      >

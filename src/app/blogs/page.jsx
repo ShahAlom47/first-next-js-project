@@ -1,6 +1,13 @@
 import Link from 'next/link';
 import React from 'react';
 
+export const metadata = {
+  title:{
+  absolute:'Blog'  // absulute use koray title just 'blog dekabe ' datnamic vabe dekabe na 
+  },
+  description: "all blogs here",
+};
+
 const Blogs = () => {
 
     const blogs = [
@@ -99,7 +106,7 @@ const Blogs = () => {
                     <p className=' mb-5'>{blog.content}</p>
                  
                  <div className=' py-5'>
-                 <Link href={`/blogs/${blog.id}`} className=' hover:bg-green-500 mt-4 bg-green-400 my-4 rounded-sm p-1'>Details</Link>
+                 <Link href={`/blogs/${blog.id}`} className=' btn btn-outline hover:bg-green-500 mt-4 bg-green-400 my-4'>Details</Link>
                
                  </div>
                  </div>)

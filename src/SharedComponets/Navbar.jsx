@@ -26,6 +26,10 @@ const handelLogin =()=>{
             path:'/blogs',
         },
         {
+            title:'Photos',
+            path:'/photos',
+        },
+        {
             title:'Dashboard',
             path:'/dashboard/adminHome',
         },

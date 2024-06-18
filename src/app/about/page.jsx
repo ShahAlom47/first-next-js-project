@@ -1,5 +1,7 @@
 import React from 'react';
 import { Headland_One } from 'next/font/google';
+import { getServerSession } from 'next-auth';
+import { authOption } from '../api/auth/[...nextauth]/route';
 
 const Headland = Headland_One({weight:['400',], subsets: ["latin"] });
 
@@ -24,6 +26,9 @@ export const metadata = {
 
 const AboutPage = async() => {
     const time = await getTime()
+    const session = await getServerSession(authOption)
+
+    console.log(session);
 
     return (
         <div className={`${Headland.className} my-6`}>

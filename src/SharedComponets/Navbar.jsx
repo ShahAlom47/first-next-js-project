@@ -1,5 +1,6 @@
 
 'use client'
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
@@ -7,12 +8,13 @@ import React from 'react';
 const Navbar = () => {
     const pathName =usePathname()
     const router= useRouter()
+const session =useSession()
 
-
+console.log(session);
 
 
 const handelLogin =()=>{
-    router.push('/login')
+    router.push('/api/auth/signin')
 
 }
 
@@ -76,7 +78,18 @@ if(pathName.includes('dashboard')){
                 </ul>
             </nav>
             <div>
+            { session.status=='authenticated'?  <div className='flex gap-3 items-center'>
+                <div className=' px-4 bg-slate-200 rounded-md'>
+                    <h1 className='font-semibold'>{session.data.user.name}</h1>
+                    
+                </div>
+
+                <button onClick={signOut} className='text-xl font-semibold'>Logout</button>
+            </div>
+            
+            :
                 <button onClick={handelLogin} className='text-xl font-semibold'>Login</button>
+            }
             </div>
         </div>
     );

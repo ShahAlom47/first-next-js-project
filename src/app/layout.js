@@ -3,6 +3,7 @@
 import { Inter ,Roboto} from "next/font/google";
 import "./globals.css";
 import Navbar from "@/SharedComponets/Navbar";
+import AuthProvider from "@/services/AuthProvider";
 
 
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
+      <AuthProvider>
       <body className={roboto.className}>
         <nav className=" bg-teal-400 p-2 ">
           <Navbar></Navbar>
@@ -31,6 +33,7 @@ export default function RootLayout({ children }) {
         {children}
 
       </body>
+      </AuthProvider>
     </html>
   );
 }

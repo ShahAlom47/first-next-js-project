@@ -1,7 +1,9 @@
+import connectDB from "@/lib/connectDB";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const  authOption ={
+   
     // secret:process.env.NEXT_PUBLIC_AUTH_SECRET,
     secret:'Caiby1JnmsajO0OVvJ3Q9j7XiIM5brTNn8LosW4xC8E=',
     session: {
@@ -25,15 +27,25 @@ export const  authOption ={
                 },
             },
             async authorize(credentials) {
+                const db= connectDB()
                 const {email,password}=credentials;
                 if (!credentials) {
                     return null;
                 }
                if(email){
                 const currentUser= users.find((user)=>user.email===email);
-                return currentUser
+                const userCollection=  db.collection('user');
+                const existingUser= userCollection.findOne({email:email})
+                if(existingUser){
+                    if(existingUser.password==password)
+                        {
+                            return currentUser
+                        }
+                    return {message:'wrong pass'}
+                }
                }
-                return null
+
+                return {message:'user not found'}
 
               
             },
@@ -59,21 +71,6 @@ export const  authOption ={
 
 const handler = NextAuth(authOption);
 
-const users= [
-    {
-        id:1,
-        name:'monu miah',
-        email:'monu@miah.com',
-        password:'123456',
-        role:'user',
-    },
-    {
-        id:1,
-        name:'koddus ali',
-        email:'koddus@ali.com',
-        password:'123456',
-        role:'admin'
-    },
-]
+
 
 export { handler as GET, handler as POST };

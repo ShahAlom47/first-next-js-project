@@ -10,7 +10,7 @@ const Navbar = () => {
     const router= useRouter()
 const session =useSession()
 
-console.log(session);
+
 
 
 const handelLogin =()=>{
@@ -88,7 +88,10 @@ if(pathName.includes('dashboard')){
             </div>
             
             :
-                <button onClick={handelLogin} className='text-xl font-semibold'>Login</button>
+                <div className="flex gap-3">
+                    <button onClick={handelLogin} className='text-xl font-semibold'>Login</button>
+                   <Link href={'/api/signup'}> <button  className='text-xl font-semibold'>Register</button></Link>
+                </div>
             }
             </div>
         </div>

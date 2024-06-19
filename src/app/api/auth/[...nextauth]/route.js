@@ -1,11 +1,13 @@
 import connectDB from "@/lib/connectDB";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
-export const  authOption ={
-   
+
+export const authOption = {
+
     // secret:process.env.NEXT_PUBLIC_AUTH_SECRET,
-    secret:'Caiby1JnmsajO0OVvJ3Q9j7XiIM5brTNn8LosW4xC8E=',
+    secret: 'Caiby1JnmsajO0OVvJ3Q9j7XiIM5brTNn8LosW4xC8E=',
     session: {
         strategy: "jwt",
     },
@@ -27,53 +29,58 @@ export const  authOption ={
                 },
             },
             async authorize(credentials) {
-                
-                const {email,password}=credentials;
+
+                const { email, password } = credentials;
                 if (!credentials) {
                     return null;
                 }
-           
-              
-               if(email){
-                
-                // const currentUser= users.find((user)=>user.email===email);
-               
-                const db= await connectDB();
-           
-                // const userCollection=   db.collection('user');
-                const existingUser= await db.collection('users').findOne({email})
-                console.log(existingUser);
-                
-                if(existingUser){
-                    if(existingUser.password==password)
-                        {
-                            console.log(existingUser,'in');
+
+
+                if (email) {
+
+                    // const currentUser= users.find((user)=>user.email===email);
+
+                    const db = await connectDB();
+
+                    // const userCollection=   db.collection('user');
+                    const existingUser = await db.collection('users').findOne({ email })
+                    console.log(existingUser);
+
+                    if (existingUser) {
+                        if (existingUser.password == password) {
+                            console.log(existingUser, 'in');
                             return existingUser
                         }
-                    return null
+                        return null
+                    }
                 }
-               }
 
                 return null
 
-              
+
             },
         }),
+
+        GoogleProvider({
+            clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+            clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET
+        })
+
     ],
 
     callbacks: {
-        
+
         async session({ session, token }) {
-            session.user.role=token.role
-          return session
+            session.user.role = token.role
+            return session
         },
         async jwt({ token, user, account }) {
-            if(account){
-                token.role=user.role
+            if (account) {
+                token.role = user.role
             }
-          return token
+            return token
         }
-    
+
     }
 }
 

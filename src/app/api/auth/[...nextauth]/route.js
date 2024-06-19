@@ -27,25 +27,34 @@ export const  authOption ={
                 },
             },
             async authorize(credentials) {
-                const db= connectDB()
+                
                 const {email,password}=credentials;
                 if (!credentials) {
                     return null;
                 }
+           
+              
                if(email){
-                const currentUser= users.find((user)=>user.email===email);
-                const userCollection=  db.collection('user');
-                const existingUser= userCollection.findOne({email:email})
+                
+                // const currentUser= users.find((user)=>user.email===email);
+               
+                const db= await connectDB();
+           
+                // const userCollection=   db.collection('user');
+                const existingUser= await db.collection('users').findOne({email})
+                console.log(existingUser);
+                
                 if(existingUser){
                     if(existingUser.password==password)
                         {
-                            return currentUser
+                            console.log(existingUser,'in');
+                            return existingUser
                         }
-                    return {message:'wrong pass'}
+                    return null
                 }
                }
 
-                return {message:'user not found'}
+                return null
 
               
             },
